@@ -5,7 +5,6 @@ package com.taeyeon.meowgpt.ui
 import android.content.Intent
 import android.graphics.BlurMaskFilter
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,14 +26,11 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Send
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,9 +45,7 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -65,60 +60,66 @@ import com.taeyeon.meowgpt.theme.gptColorScheme
 
 @Composable
 fun TopAppBar() {
-    CenterAlignedTopAppBar(
-        title = {
+    Surface(
+        color = MaterialTheme.gptColorScheme.topBar,
+        contentColor = MaterialTheme.gptColorScheme.onTopBar
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .padding(
+                    vertical = 10.dp,
+                    horizontal = 5.dp
+                )
+        ) {
             Text(
                 text = "New chat",
                 fontWeight = FontWeight.Normal,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(horizontal = 30.dp + 10.dp)
             )
-        },
-        navigationIcon = {
             Surface(
                 onClick = { /*TODO*/ },
                 shape = RoundedCornerShape(20),
                 color = Color.Transparent,
-                contentColor = LocalContentColor.current
+                contentColor = LocalContentColor.current,
+                modifier = Modifier.align(Alignment.CenterStart)
             ) {
-                Icon(
+                Image(
                     imageVector = Icons.Rounded.Menu,
                     contentDescription = null,
+                    colorFilter = ColorFilter.tint(LocalContentColor.current),
                     modifier = Modifier
-                        .padding(6.dp)
-                        .size(32.dp)
+                        .padding(4.dp)
+                        .size(24.dp)
                 )
             }
-        },
-        actions = {
             Surface(
                 onClick = { /*TODO*/ },
                 shape = RoundedCornerShape(20),
                 color = Color.Transparent,
-                contentColor = LocalContentColor.current
+                contentColor = LocalContentColor.current,
+                modifier = Modifier.align(Alignment.CenterEnd)
             ) {
-                Icon(
+                Image(
                     imageVector = Icons.Rounded.Add,
                     contentDescription = null,
+                    colorFilter = ColorFilter.tint(LocalContentColor.current),
                     modifier = Modifier
-                        .padding(6.dp)
-                        .size(32.dp)
+                        .padding(4.dp)
+                        .size(24.dp)
                 )
             }
-        },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.gptColorScheme.topBar,
-            scrolledContainerColor = MaterialTheme.gptColorScheme.topBar,
-            navigationIconContentColor = MaterialTheme.gptColorScheme.onTopBar,
-            titleContentColor = MaterialTheme.gptColorScheme.onTopBar,
-            actionIconContentColor = MaterialTheme.gptColorScheme.onTopBar
-        )
-    )
+        }
+    }
 }
 
 @Composable
 fun BottomAppBar() {
     val context = LocalContext.current
-    val hapticFeedback = LocalHapticFeedback.current
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -140,7 +141,7 @@ fun BottomAppBar() {
             ) {
                 Surface(
                     color = MaterialTheme.gptColorScheme.surfacePrompt,
-                    shape = RoundedCornerShape(20),
+                    shape = RoundedCornerShape(12.dp),
                     border = BorderStroke(
                         width = 2.dp,
                         color = MaterialTheme.gptColorScheme.borderBlock
@@ -148,22 +149,19 @@ fun BottomAppBar() {
                     modifier = Modifier
                         .weight(1f)
                         .heightIn(
-                            min = 46.dp,
-                            max = 92.dp
+                            min = 52.dp,
+                            max = 104.dp
                         )
                         .drawBehind {
                             drawIntoCanvas { canvas ->
                                 val paint = Paint()
-                                paint
-                                    .asFrameworkPaint()
+                                paint.asFrameworkPaint()
                                     .apply {
-                                        maskFilter =
-                                            BlurMaskFilter(12.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                                        maskFilter = BlurMaskFilter(12.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
                                         color = Color.Black
                                             .copy(alpha = 0.1f)
                                             .toArgb()
                                     }
-
                                 canvas.drawRect(
                                     left = 0f,
                                     top = 0f,
@@ -175,24 +173,21 @@ fun BottomAppBar() {
                         }
                 ) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(
+                                min = 52.dp,
+                                max = 104.dp
+                            )
                     ) {
                         var text by rememberSaveable { mutableStateOf("") }
 
                         BasicTextField(
                             value = text,
                             onValueChange = { text = it },
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(
-                                    top = 12.dp,
-                                    bottom = 12.dp,
-                                    start = 12.dp,
-                                    end = 6.dp
-                                ),
                             textStyle = MaterialTheme.typography.labelMedium.copy(
                                 fontSize = 14.sp,
+                                lineHeight = 18.sp,
                                 color = MaterialTheme.gptColorScheme.textPrompt
                             ),
                             cursorBrush = SolidColor(
@@ -205,19 +200,32 @@ fun BottomAppBar() {
                                             text = "Send a message...",
                                             style = MaterialTheme.typography.labelMedium.copy(
                                                 fontSize = 14.sp,
+                                                lineHeight = 18.sp,
                                                 color = MaterialTheme.gptColorScheme.textHint
                                             ),
                                         )
                                     }
                                     innerTextField()
                                 }
-                            }
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .align(Alignment.CenterVertically)
+                                .padding(
+                                    top = 12.dp,
+                                    bottom = 12.dp,
+                                    start = 12.dp,
+                                    end = 0.dp
+                                )
                         )
                         Surface(
                             onClick = { /*TODO*/ },
                             shape = RoundedCornerShape(20),
                             color = Color.Transparent,
-                            contentColor = LocalContentColor.current
+                            contentColor = LocalContentColor.current,
+                            modifier = Modifier
+                                .padding(vertical = 2.dp)
+                                .align(Alignment.Bottom)
                         ) {
                             Image(
                                 imageVector = Icons.Rounded.Send,
@@ -268,7 +276,6 @@ fun BottomAppBar() {
                         start = offset,
                         end = offset
                     ).firstOrNull()?.let { annotation ->
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                         context.startActivity(
                             Intent(
                                 Intent.ACTION_VIEW,
