@@ -1,6 +1,7 @@
 [versions]
 accompanist-systemuicontroller = "0.29.1-alpha"
 com-android-application = "8.1.0-alpha11"
+material-icons-extended = "1.4.1"
 org-jetbrains-kotlin-android = "1.7.20"
 core-ktx = "1.9.0"
 junit = "4.13.2"
@@ -12,6 +13,7 @@ compose-bom = "2022.10.00"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "material-icons-extended" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }

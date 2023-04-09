@@ -33,7 +33,8 @@ fun MainScreen() {
         contentColor = MaterialTheme.gptColorScheme.onSurface,
         content = {
             Box(
-               modifier = Modifier.padding(it)
+                modifier = Modifier.padding(it),
+                content = { Welcome() }
             )
         }
     )
