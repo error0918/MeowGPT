@@ -81,10 +81,6 @@ fun MeowGPTTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) darkColorScheme else lightColorScheme
-    SetSystemBarColor(
-        statusBarColor = colorScheme.primary,
-        navigationBarColor = colorScheme.surface
-    )
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
@@ -94,21 +90,22 @@ fun MeowGPTTheme(
 
 @Composable
 fun SetSystemBarColor(
-    darkIcons: Boolean = !isSystemInDarkTheme(),
     statusBarColor: Color,
-    navigationBarColor: Color
+    statusBarDarkIcons: Boolean = !isSystemInDarkTheme(),
+    navigationBarColor: Color,
+    navigationBarDarkIcons: Boolean = !isSystemInDarkTheme(),
 ) {
     val systemUiController = rememberSystemUiController()
-    LaunchedEffect(darkIcons, statusBarColor) {
+    LaunchedEffect(statusBarDarkIcons, statusBarColor) {
         systemUiController.setStatusBarColor(
             color = statusBarColor,
-            darkIcons = darkIcons
+            darkIcons = statusBarDarkIcons
         )
     }
-    LaunchedEffect(darkIcons, navigationBarColor) {
+    LaunchedEffect(navigationBarDarkIcons, navigationBarColor) {
         systemUiController.setNavigationBarColor(
             color = navigationBarColor,
-            darkIcons = darkIcons
+            darkIcons = navigationBarDarkIcons
         )
     }
 }

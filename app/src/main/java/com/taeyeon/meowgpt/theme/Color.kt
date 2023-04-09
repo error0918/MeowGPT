@@ -137,4 +137,4 @@ val theme_dark_inverseSurface = light_surface
 val theme_dark_inversePrimary = Color.Transparent
 val theme_dark_surfaceTint = tint
 val theme_dark_outlineVariant = dark_borderBlock
-val theme_dark_scrim = Color.Black
+val theme_dark_scrim = Color.White
