@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.taeyeon.meowgpt.ui
 
 import android.content.Intent
@@ -11,13 +9,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.ClickableText
@@ -32,10 +28,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -55,11 +47,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.taeyeon.meowgpt.MeowViewModel
 import com.taeyeon.meowgpt.theme.gptColorScheme
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar() {
+fun TopAppBar(meowViewModel: MeowViewModel) {
     Surface(
         color = MaterialTheme.gptColorScheme.topBar,
         contentColor = MaterialTheme.gptColorScheme.onTopBar
@@ -67,11 +61,8 @@ fun TopAppBar() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(52.dp)
-                .padding(
-                    vertical = 10.dp,
-                    horizontal = 5.dp
-                )
+                .height(48.dp)
+                .padding(horizontal = 5.dp)
         ) {
             Text(
                 text = "New chat",
@@ -79,21 +70,23 @@ fun TopAppBar() {
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .padding(horizontal = 30.dp + 10.dp)
+                    .padding(horizontal = 48.dp + 10.dp)
             )
             Surface(
-                onClick = { /*TODO*/ },
-                shape = RoundedCornerShape(20),
+                onClick = { meowViewModel.isSideBarOpened = !meowViewModel.isSideBarOpened },
+                shape = RoundedCornerShape(12.dp),
                 color = Color.Transparent,
                 contentColor = LocalContentColor.current,
-                modifier = Modifier.align(Alignment.CenterStart)
+                modifier = Modifier
+                    .size(48.dp)
+                    .align(Alignment.CenterStart)
             ) {
                 Image(
                     imageVector = Icons.Rounded.Menu,
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(LocalContentColor.current),
                     modifier = Modifier
-                        .padding(4.dp)
+                        .padding(12.dp)
                         .size(24.dp)
                 )
             }
@@ -102,14 +95,16 @@ fun TopAppBar() {
                 shape = RoundedCornerShape(20),
                 color = Color.Transparent,
                 contentColor = LocalContentColor.current,
-                modifier = Modifier.align(Alignment.CenterEnd)
+                modifier = Modifier
+                    .size(48.dp)
+                    .align(Alignment.CenterEnd)
             ) {
                 Image(
                     imageVector = Icons.Rounded.Add,
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(LocalContentColor.current),
                     modifier = Modifier
-                        .padding(4.dp)
+                        .padding(12.dp)
                         .size(24.dp)
                 )
             }
@@ -117,8 +112,9 @@ fun TopAppBar() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomAppBar() {
+fun BottomAppBar(meowViewModel: MeowViewModel) {
     val context = LocalContext.current
 
     Surface(
@@ -149,25 +145,26 @@ fun BottomAppBar() {
                     modifier = Modifier
                         .weight(1f)
                         .heightIn(
-                            min = 52.dp,
-                            max = 104.dp
+                            min = 56.dp,
+                            max = 168.dp
                         )
                         .drawBehind {
                             drawIntoCanvas { canvas ->
-                                val paint = Paint()
-                                paint.asFrameworkPaint()
-                                    .apply {
-                                        maskFilter = BlurMaskFilter(12.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
-                                        color = Color.Black
-                                            .copy(alpha = 0.1f)
-                                            .toArgb()
-                                    }
+                                // Shadow Effect
                                 canvas.drawRect(
                                     left = 0f,
                                     top = 0f,
                                     right = size.width,
                                     bottom = size.height,
-                                    paint = paint,
+                                    paint = Paint().apply {
+                                        asFrameworkPaint()
+                                            .apply {
+                                                maskFilter = BlurMaskFilter(12.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                                                color = Color.Black
+                                                    .copy(alpha = 0.1f)
+                                                    .toArgb()
+                                            }
+                                    },
                                 )
                             }
                         }
@@ -176,15 +173,13 @@ fun BottomAppBar() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(
-                                min = 52.dp,
-                                max = 104.dp
+                                min = 56.dp,
+                                max = 168.dp
                             )
                     ) {
-                        var text by rememberSaveable { mutableStateOf("") }
-
                         BasicTextField(
-                            value = text,
-                            onValueChange = { text = it },
+                            value = meowViewModel.prompt,
+                            onValueChange = { meowViewModel.prompt = it },
                             textStyle = MaterialTheme.typography.labelMedium.copy(
                                 fontSize = 14.sp,
                                 lineHeight = 18.sp,
@@ -195,7 +190,7 @@ fun BottomAppBar() {
                             ),
                             decorationBox = { innerTextField ->
                                 Box {
-                                    if (text.isEmpty()) {
+                                    if (meowViewModel.prompt.isEmpty()) {
                                         Text(
                                             text = "Send a message...",
                                             style = MaterialTheme.typography.labelMedium.copy(
@@ -218,43 +213,62 @@ fun BottomAppBar() {
                                     end = 0.dp
                                 )
                         )
-                        Surface(
-                            onClick = { /*TODO*/ },
-                            shape = RoundedCornerShape(20),
-                            color = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            modifier = Modifier
-                                .padding(vertical = 2.dp)
-                                .align(Alignment.Bottom)
-                        ) {
-                            Image(
-                                imageVector = Icons.Rounded.Send,
-                                contentDescription = null,
-                                colorFilter = ColorFilter.tint(
-                                    if (text.isNotEmpty()) MaterialTheme.gptColorScheme.iconEnabled
-                                    else MaterialTheme.gptColorScheme.iconDisabled
-                                ),
+                        if (meowViewModel.prompt.isEmpty()) {
+                            Surface(
+                                shape = RoundedCornerShape(12.dp),
+                                color = Color.Transparent,
+                                contentColor = LocalContentColor.current,
                                 modifier = Modifier
                                     .padding(4.dp)
-                                    .size(24.dp)
-                            )
+                                    .size(48.dp)
+                                    .align(Alignment.Bottom)
+                            ) {
+                                Image(
+                                    imageVector = Icons.Rounded.Send,
+                                    contentDescription = null,
+                                    colorFilter = ColorFilter.tint(MaterialTheme.gptColorScheme.iconDisabled),
+                                    modifier = Modifier
+                                        .padding(12.dp)
+                                        .size(24.dp)
+                                )
+                            }
+                        } else {
+                            Surface(
+                                onClick = { /*TODO*/ },
+                                shape = RoundedCornerShape(12.dp),
+                                color = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .size(48.dp)
+                                    .align(Alignment.Bottom)
+                            ) {
+                                Image(
+                                    imageVector = Icons.Rounded.Send,
+                                    contentDescription = null,
+                                    colorFilter = ColorFilter.tint(MaterialTheme.gptColorScheme.iconEnabled),
+                                    modifier = Modifier
+                                        .padding(12.dp)
+                                        .size(24.dp)
+                                )
+                            }
                         }
                     }
                 }
-                Spacer(modifier = Modifier.width(6.dp))
                 Surface(
                     onClick = { /*TODO*/ },
-                    shape = RoundedCornerShape(20),
+                    shape = RoundedCornerShape(12.dp),
                     color = Color.Transparent,
-                    contentColor = LocalContentColor.current
+                    contentColor = LocalContentColor.current,
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .size(48.dp)
                 ) {
                     Image(
                         imageVector = Icons.Rounded.Refresh,
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.gptColorScheme.iconFocused),
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .size(24.dp)
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }

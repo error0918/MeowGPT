@@ -13,12 +13,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MeowGPTTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    content = { MainScreen() }
-                )
-            }
+            MainScreen()
         }
     }
 }

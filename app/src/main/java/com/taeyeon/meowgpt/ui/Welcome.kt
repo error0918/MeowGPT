@@ -30,10 +30,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.taeyeon.meowgpt.MeowViewModel
 import com.taeyeon.meowgpt.theme.gptColorScheme
 
+
 @Composable
-fun Welcome() {
+fun Welcome(meowViewModel: MeowViewModel) {
     Surface(
         color = MaterialTheme.gptColorScheme.surface,
         contentColor = MaterialTheme.gptColorScheme.onSurface

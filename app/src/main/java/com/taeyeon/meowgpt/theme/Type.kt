@@ -6,6 +6,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import com.taeyeon.meowgpt.R
 
 @OptIn(ExperimentalTextApi::class)
@@ -44,7 +45,10 @@ val Typography = Typography(
     displaySmall = Typography().displaySmall.copy(fontFamily = nanumSquareNeo),
     headlineLarge = Typography().headlineLarge.copy(fontFamily = nanumSquareNeo),
     headlineMedium = Typography().headlineMedium.copy(fontFamily = nanumSquareNeo),
-    headlineSmall = Typography().headlineSmall.copy(fontFamily = nanumSquareNeo),
+    headlineSmall = Typography().headlineSmall.copy(
+        fontSize = 40.sp,
+        fontFamily = nanumSquareNeo
+    ),
     titleLarge = Typography().titleLarge.copy(fontFamily = nanumSquareNeo),
     titleMedium = Typography().titleMedium.copy(fontFamily = nanumSquareNeo),
     titleSmall = Typography().titleSmall.copy(fontFamily = nanumSquareNeo),
