@@ -9,5 +9,6 @@ class MeowViewModel(
     val state: MeowState
 ): ViewModel() {
     var prompt by mutableStateOf("")
+    var settingsDialog by mutableStateOf(false)
     var darkMode by mutableStateOf(false)
 }

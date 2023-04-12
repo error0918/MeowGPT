@@ -33,30 +33,33 @@ fun MainScreen(
             navigationBarDarkIcons = !isSystemInDarkTheme()
         )
 
-        ModalNavigationDrawer(
-            gesturesEnabled = false,
-            scrimColor = MaterialTheme.gptColorScheme.textPrompt.copy(alpha = 0.05f),
-            drawerState = meowViewModel.state.drawerState,
-            drawerContent = { SideBar(meowViewModel = meowViewModel) },
-            content = {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    Scaffold(
-                        topBar = { TopAppBar(meowViewModel = meowViewModel) },
-                        bottomBar = { BottomAppBar(meowViewModel = meowViewModel) },
-                        snackbarHost = {},
-                        floatingActionButton = {},
-                        floatingActionButtonPosition = FabPosition.End,
-                        containerColor = MaterialTheme.gptColorScheme.surface,
-                        contentColor = MaterialTheme.gptColorScheme.onSurface,
-                        content = {
-                            Box(
-                                modifier = Modifier.padding(it),
-                                content = { Welcome(meowViewModel = meowViewModel) }
-                            )
-                        }
-                    )
+        Box(modifier = Modifier.fillMaxSize()) {
+            ModalNavigationDrawer(
+                gesturesEnabled = false,
+                scrimColor = MaterialTheme.gptColorScheme.textPrompt.copy(alpha = 0.05f),
+                drawerState = meowViewModel.state.drawerState,
+                drawerContent = { SideBar(meowViewModel = meowViewModel) },
+                content = {
+                    Surface(modifier = Modifier.fillMaxSize()) {
+                        Scaffold(
+                            topBar = { TopAppBar(meowViewModel = meowViewModel) },
+                            bottomBar = { BottomAppBar(meowViewModel = meowViewModel) },
+                            snackbarHost = {},
+                            floatingActionButton = {},
+                            floatingActionButtonPosition = FabPosition.End,
+                            containerColor = MaterialTheme.gptColorScheme.surface,
+                            contentColor = MaterialTheme.gptColorScheme.onSurface,
+                            content = {
+                                Box(
+                                    modifier = Modifier.padding(it),
+                                    content = { Welcome(meowViewModel = meowViewModel) }
+                                )
+                            }
+                        )
+                    }
                 }
-            }
-        )
+            )
+            if (meowViewModel.settingsDialog) SettingsDialog(meowViewModel = meowViewModel)
+        }
     }
 }

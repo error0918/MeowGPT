@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 
 val MaterialTheme.gptColorScheme: GptColorScheme
     @Composable get() {
-        return if (isSystemInDarkTheme())
+        return if (this.colorScheme.surface == light_surface)
             GptColorScheme(
                 topBar = topBar,
                 sideBar = sideBar,

@@ -2,22 +2,30 @@ package com.taeyeon.meowgpt.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.ChatBubbleOutline
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Logout
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.WebAsset
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
@@ -60,42 +68,71 @@ fun SideBar(meowViewModel: MeowViewModel) {
                     .fillMaxSize()
                     .padding(12.dp)
             ) {
-                Surface(
-                    onClick = { /* TODO */ },
-                    shape = RoundedCornerShape(12.dp),
-                    color = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    border = BorderStroke(
+                SideBarItem(
+                    onClick = { /*TODO*/ },
+                    imageVector = Icons.Rounded.Add,
+                    text = "New chat",
+                    border =  BorderStroke(
                         width = 2.dp,
                         color = MaterialTheme.gptColorScheme.borderOnSideBar
-                    ),
-                    modifier = Modifier.fillMaxWidth()
+                    )
+                )
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(space = 12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(space = 6.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(12.dp)
-                    ) {
-                        Image(
-                            imageVector = Icons.Rounded.Add,
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(LocalContentColor.current),
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Text(
-                            text = "New Chat",
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Light
+                    items(listOf("요구요구", "아가아가", "1234", "요구요구", "아가아가", "1234", "요구요구", "아가아가", "1234")) {
+                        SideBarItem(
+                            onClick = { /*TODO*/ },
+                            imageVector = Icons.Rounded.ChatBubbleOutline,
+                            text = it
                         )
                     }
                 }
-
-                Spacer(modifier = Modifier.weight(1f))
                 Divider(
                     thickness = 2.dp,
                     color = MaterialTheme.gptColorScheme.borderOnSideBar
+                )
+                SideBarItem(
+                    onClick = { /*TODO*/ },
+                    imageVector = Icons.Rounded.Delete,
+                    text = "Clear conversations"
+                )
+                SideBarItem(
+                    onClick = { /*TODO*/ },
+                    imageVector = Icons.Rounded.Person,
+                    text = "Upgrade to Plus",
+                    indicator = {
+                        Text(
+                            text = "NEW",
+                            color = MaterialTheme.gptColorScheme.onTint,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            modifier = Modifier
+                                .background(
+                                    color = MaterialTheme.gptColorScheme.tint,
+                                    shape = RoundedCornerShape(6.dp)
+                                )
+                                .padding(6.dp)
+                        )
+                    }
+                )
+                SideBarItem(
+                    onClick = { meowViewModel.settingsDialog = true },
+                    imageVector = Icons.Rounded.Settings,
+                    text = "Settings"
+                )
+                SideBarItem(
+                    onClick = { /*TODO*/ },
+                    imageVector = Icons.Rounded.WebAsset,
+                    text = "Get Help"
+                )
+                SideBarItem(
+                    onClick = { /*TODO*/ },
+                    imageVector = Icons.Rounded.Logout,
+                    text = "Log out"
                 )
             }
         }
@@ -145,18 +182,18 @@ fun SideBar(meowViewModel: MeowViewModel) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SideBarItem(
+    onClick: () -> Unit,
     imageVector: ImageVector,
-    text: String
+    text: String,
+    indicator: @Composable () -> Unit = {  },
+    border: BorderStroke? = null
 ) {
     Surface(
-        onClick = { /* TODO */ },
+        onClick = onClick,
         shape = RoundedCornerShape(12.dp),
         color = Color.Transparent,
         contentColor = LocalContentColor.current,
-        border = BorderStroke(
-            width = 2.dp,
-            color = MaterialTheme.gptColorScheme.borderOnSideBar
-        ),
+        border = border,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
@@ -167,16 +204,18 @@ fun SideBarItem(
                 .padding(12.dp)
         ) {
             Image(
-                imageVector = Icons.Rounded.Add,
-                contentDescription = null,
+                imageVector = imageVector,
+                contentDescription = text,
                 colorFilter = ColorFilter.tint(LocalContentColor.current),
                 modifier = Modifier.size(24.dp)
             )
             Text(
-                text = "New Chat",
+                text = text,
                 fontSize = 15.sp,
-                fontWeight = FontWeight.Light
+                fontWeight = FontWeight.Light,
+                modifier = Modifier.weight(1f)
             )
+            indicator()
         }
     }
 }
