@@ -4,7 +4,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
@@ -13,7 +12,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.taeyeon.meowgpt.MeowViewModel
 import com.taeyeon.meowgpt.rememberMeowState
 import com.taeyeon.meowgpt.theme.MeowGPTTheme
@@ -23,7 +21,7 @@ import com.taeyeon.meowgpt.theme.gptColorScheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    meowViewModel: MeowViewModel = MeowViewModel(state = rememberMeowState(drawerStateInitialValue = DrawerValue.Open))
+    meowViewModel: MeowViewModel = MeowViewModel(state = rememberMeowState())
 ) {
     MeowGPTTheme(
         darkTheme = meowViewModel.darkMode
@@ -37,7 +35,7 @@ fun MainScreen(
 
         ModalNavigationDrawer(
             gesturesEnabled = false,
-            scrimColor = MaterialTheme.gptColorScheme.surfacePrompt.copy(alpha = 0.5f),
+            scrimColor = MaterialTheme.gptColorScheme.textPrompt.copy(alpha = 0.05f),
             drawerState = meowViewModel.state.drawerState,
             drawerContent = { SideBar(meowViewModel = meowViewModel) },
             content = {
@@ -58,7 +56,7 @@ fun MainScreen(
                         }
                     )
                 }
-            },
+            }
         )
     }
 }
