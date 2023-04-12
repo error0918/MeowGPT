@@ -51,7 +51,7 @@ val light_borderFab = Color(0xffd9d9e3) // Border Floating Button
 // Dark Theme
 
 val dark_surface = Color(0xff343541) // Main Screen Surface
-val dark_surfaceVariant = Color(0xffececf1) // Main Screen List
+val dark_surfaceVariant = Color(0xff3e3f4b) // Main Screen List
 val dark_surfacePrompt = Color(0xff40414f) // Prompt Background
 val dark_myChat = Color(0xff343541) // My Chat Surface
 val dark_gptChat = Color(0xff444654) // GPT Chat Surface

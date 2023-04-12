@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-class MeowViewModel: ViewModel() {
+class MeowViewModel(
+    val state: MeowState
+): ViewModel() {
     var prompt by mutableStateOf("")
-
     var darkMode by mutableStateOf(false)
-    var isSideBarOpened by mutableStateOf(false)
 }
