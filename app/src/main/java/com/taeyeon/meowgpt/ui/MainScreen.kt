@@ -13,16 +13,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.taeyeon.meowgpt.MeowViewModel
-import com.taeyeon.meowgpt.rememberMeowState
 import com.taeyeon.meowgpt.theme.MeowGPTTheme
 import com.taeyeon.meowgpt.theme.SetSystemBarColor
 import com.taeyeon.meowgpt.theme.gptColorScheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(
-    meowViewModel: MeowViewModel = MeowViewModel(state = rememberMeowState())
-) {
+fun MainScreen(meowViewModel: MeowViewModel) {
     MeowGPTTheme(
         darkTheme = meowViewModel.darkMode
     ) {
@@ -52,7 +49,9 @@ fun MainScreen(
                             content = {
                                 Box(
                                     modifier = Modifier.padding(it),
-                                    content = { Welcome(meowViewModel = meowViewModel) }
+                                    content = {
+                                        WelcomeContent(meowViewModel = meowViewModel)
+                                    }
                                 )
                             }
                         )

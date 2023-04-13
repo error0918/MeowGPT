@@ -35,7 +35,7 @@ import com.taeyeon.meowgpt.theme.gptColorScheme
 
 
 @Composable
-fun Welcome(meowViewModel: MeowViewModel) {
+fun WelcomeContent(meowViewModel: MeowViewModel) {
     Surface(
         color = MaterialTheme.gptColorScheme.surface,
         contentColor = MaterialTheme.gptColorScheme.onSurface

@@ -1,3 +1,9 @@
 package com.taeyeon.meowgpt.data
 
-class ChatRoom()
+import androidx.compose.runtime.mutableStateListOf
+
+class ChatRoom(
+    val title: String
+) {
+    val chatList = mutableStateListOf<Chat>()
+}
