@@ -50,7 +50,8 @@ fun MainScreen(meowViewModel: MeowViewModel) {
                                 Box(
                                     modifier = Modifier.padding(it),
                                     content = {
-                                        WelcomeContent(meowViewModel = meowViewModel)
+                                        //WelcomeContent(meowViewModel = meowViewModel)
+                                        ChatContent(meowViewModel = meowViewModel)
                                     }
                                 )
                             }
